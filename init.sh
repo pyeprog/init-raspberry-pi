@@ -1,4 +1,4 @@
-#! /bin/bash
+##! /bin/bash
 
 echo 'This is a initializing script'
 echo 'Install and config vim'
@@ -34,7 +34,7 @@ sudo rpi-update
 
 # config touchable screen
 if [ -f /boot/config.txt ]; then
-    sudo sed -ie '\$a\dtoverlay=piscreen,speed=16000000,rotate=90' /boot/config.txt
+    sudo sed -i '$a\dtoverlay=piscreen,speed=16000000,rotate=90' /boot/config.txt
 else
     echo 'dtoverlay=piscreen,speed=16000000,rotate=90' > ./config.txt
     sudo mv config.txt /boot
@@ -46,14 +46,17 @@ sudo sed -i 's/fb0/fb1/g' /usr/share/X11/xorg.conf.d/99-fbturbo.conf
 if [ ! -f /etc/xdg/lxsession/LXDE/touchscreen.sh ]; then
     sudo touch /etc/xdg/lxsession/LXDE/touchscreen.sh
 fi
-sudo echo "DISPLAY=:0 xinput --set-prop 'ADS7846 Touchscreen' 'Evdev Axes Swap' 0\
-    DISPLAY=:0 xinput --set-prop 'ADS7846 Touchscreen' 'Evdev Axis Inversion' 1 0" >> /etc/xdg/lxsession/LXDE/touchscreen.sh
+sudo mv /etc/xdg/lxsession/LXDE/touchscreen.sh ./
+sudo chown $(whoami):$(whoami) touchscreen.sh
+echo "DISPLAY=:0 xinput --set-prop 'ADS7846 Touchscreen' 'Evdev Axes Swap' 0\nDISPLAY=:0 xinput --set-prop 'ADS7846 Touchscreen' 'Evdev Axis Inversion' 1 0" >> touchscreen.sh
+sudo mv touchscreen.sh /etc/xdg/lxsession/LXDE/
 sudo chmod +x /etc/xdg/lxsession/LXDE/touchscreen.sh
+sudo chown root:root /etc/xdg/lxsession/LXDE/touchscreen.sh
 
-if [ -f sudo nano /etc/xdg/lxsession/LXDE/autostart ]; then
-    sudo sed -i /@xscreensaver -no-splash/i \
-        '@lxterminal --command "/etc/xdg/lxsession/LXDE/touchscreen.sh"' /etc/xdg/lxsession/LXDE/autostart
+if [ -f /etc/xdg/lxsession/LXDE/autostart ]; then
+    sudo sed -ie /'@xscreensaver \-no-splash'/i'@lxterminal --command "/etc/xdg/lxsession/LXDE/touchscreen.sh"' /etc/xdg/lxsession/LXDE/autostart
 else
-    echo '@lxterminal --command "/etc/xdg/lxsession/LXDE/touchscreen.sh"' > /etc/xdg/lxsession/LXDE/autostart
+    echo '@lxterminal --command "/etc/xdg/lxsession/LXDE/touchscreen.sh"' > ./autostart
+    sudo mv autostart /etc/xdg/lxsession/LXDE/
 fi
 
