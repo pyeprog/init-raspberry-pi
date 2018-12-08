@@ -1,8 +1,23 @@
 ##! /bin/bash
 
 echo 'This is a initializing script'
+# change apt source list to tsinghua's source
+echo 'Chaning apt source.list'
+if [ -f /etc/apt/sources.list ]; then
+  sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak
+fi
+
+echo 'deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main non-free contrib' > ./sources.list
+echo 'deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main non-free contrib' >> ./sources.list
+sudo mv ./sources.list /etc/apt/
+
+echo 'Update apt and software'
+sudo apt update -y
+sudo apt upgrade -y
+sudo rpi-update
+
 echo 'Install and config vim'
-sudo apt install vim git -y
+sudo apt install vim -y
 git clone https://github.com/pyeprog/backup_rc.git
 git config --global user.email "pyeprog@foxmail.com"
 git config --global user.name "pd"
@@ -19,18 +34,6 @@ else
     mv ./alias $HOME/.bashrc
 fi
 source $HOME/.bashrc
-
-# change apt source list to tsinghua's source
-echo 'Chaning apt source.list'
-sudo mv /etc/apt/source.list /etc/apt/source.list.bak
-echo 'deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main non-free contrib\
-    deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ stretch main non-free contrib' > ./source.list
-sudo mv ./source.list /etc/apt/
-
-echo 'Update apt and software'
-sudo apt update -y
-sudo apt upgrade -y
-sudo rpi-update
 
 # config touchable screen
 if [ -f /boot/config.txt ]; then
