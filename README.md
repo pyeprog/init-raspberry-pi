@@ -22,10 +22,10 @@ And if your setting is correct, you can remove the ethernet cable and let it usi
 
 9. Now let's config the board. 
 If you're in China, then clone this repo and run `sh init.sh`, it will:
-  - change your apt source.list to Chinese source(tsinghua university provided.
-  - download vim and git, and config git. **Please change the user.email in script**
-  - add some alias to .bashrc
-  - update and upgrade softwares using apt.
-  - config raspi to run my XPT2046(480x320) touch screen according to [this](https://www.raspberrypi.org/forums/viewtopic.php?t=178443)
+    - change your apt source.list to Chinese source(tsinghua university provided.
+    - download vim and git, and config git. **Please change the user.email in script**
+    - add some alias to .bashrc
+    - update and upgrade softwares using apt.
+    - config raspi to run my XPT2046(480x320) touch screen according to [this](https://www.raspberrypi.org/forums/viewtopic.php?t=178443)
   
 
