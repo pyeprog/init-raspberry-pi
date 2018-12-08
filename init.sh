@@ -4,6 +4,9 @@ echo 'This is a initializing script'
 echo 'Install and config vim'
 sudo apt install vim git -y
 git clone https://github.com/pyeprog/backup_rc.git
+git config --global user.email "pyeprog@foxmail.com"
+git config --global user.name "pd"
+git config (--global) credential.helper store
 cd backup_rc/vim
 sh vimConfInstall.sh
 cd ../../
@@ -15,6 +18,7 @@ if [ -f $HOME/.bashrc ]; then
 else
     mv ./alias $HOME/.bashrc
 fi
+source $HOME/.bashrc
 
 # change apt source list to tsinghua's source
 echo 'Chaning apt source.list'
@@ -30,13 +34,14 @@ sudo rpi-update
 
 # config touchable screen
 if [ -f /boot/config.txt ]; then
-    sudo echo 'dtoverlay=piscreen,speed=16000000,rotate=90\ngive Ctrl+X then save and exit.' >> /boot/config.txt
+    sudo sed -ie '\$a\dtoverlay=piscreen,speed=16000000,rotate=90' /boot/config.txt
 else
-    sudo echo 'dtoverlay=piscreen,speed=16000000,rotate=90\ngive Ctrl+X then save and exit.' > /boot/config.txt
+    echo 'dtoverlay=piscreen,speed=16000000,rotate=90' > ./config.txt
+    sudo mv config.txt /boot
 fi
 
 sudo apt install fbi -y
-sudo sed -i 's/fb0/fb1/g'
+sudo sed -i 's/fb0/fb1/g' /usr/share/X11/xorg.conf.d/99-fbturbo.conf
 
 if [ ! -f /etc/xdg/lxsession/LXDE/touchscreen.sh ]; then
     sudo touch /etc/xdg/lxsession/LXDE/touchscreen.sh
