@@ -6,7 +6,7 @@ sudo apt install vim git -y
 git clone https://github.com/pyeprog/backup_rc.git
 git config --global user.email "pyeprog@foxmail.com"
 git config --global user.name "pd"
-git config (--global) credential.helper store
+git config --global credential.helper store
 cd backup_rc/vim
 sh vimConfInstall.sh
 cd ../../
