@@ -10,7 +10,7 @@ cd ../../
 rm -rf backup_rc
 
 # add alias
-if [[ -f $HOME/.bashrc ]]; then
+if [ -f $HOME/.bashrc ]; then
     cat ./alias >> $HOME/.bashrc
 else
     mv ./alias $HOME/.bashrc
@@ -29,7 +29,7 @@ sudo apt upgrade -y
 sudo rpi-update
 
 # config touchable screen
-if [[ -f /boot/config.txt ]]; then
+if [ -f /boot/config.txt ]; then
     sudo echo 'dtoverlay=piscreen,speed=16000000,rotate=90\ngive Ctrl+X then save and exit.' >> /boot/config.txt
 else
     sudo echo 'dtoverlay=piscreen,speed=16000000,rotate=90\ngive Ctrl+X then save and exit.' > /boot/config.txt
@@ -38,14 +38,14 @@ fi
 sudo apt install fbi -y
 sudo sed -i 's/fb0/fb1/g'
 
-if [[ ! -f /etc/xdg/lxsession/LXDE/touchscreen.sh ]]; then
+if [ ! -f /etc/xdg/lxsession/LXDE/touchscreen.sh ]; then
     sudo touch /etc/xdg/lxsession/LXDE/touchscreen.sh
 fi
 sudo echo "DISPLAY=:0 xinput --set-prop 'ADS7846 Touchscreen' 'Evdev Axes Swap' 0\
     DISPLAY=:0 xinput --set-prop 'ADS7846 Touchscreen' 'Evdev Axis Inversion' 1 0" >> /etc/xdg/lxsession/LXDE/touchscreen.sh
 sudo chmod +x /etc/xdg/lxsession/LXDE/touchscreen.sh
 
-if [[ -f sudo nano /etc/xdg/lxsession/LXDE/autostart ]]; then
+if [ -f sudo nano /etc/xdg/lxsession/LXDE/autostart ]; then
     sudo sed -i /@xscreensaver -no-splash/i \
         '@lxterminal --command "/etc/xdg/lxsession/LXDE/touchscreen.sh"' /etc/xdg/lxsession/LXDE/autostart
 else
